@@ -1,0 +1,66 @@
+{
+  "wood": {
+    "type": "natural",
+    "score": 1
+  },
+  "stone": {
+    "type": "natural",
+    "score": 1
+  },
+  "hammer": {
+    "type": "synthetic",
+    "score": 5
+  },
+  "coal": {
+    "type": "natural",
+    "requirements": {"hammer": 1},
+    "score": 2
+  },
+  "torch": {
+    "type": "synthetic",
+    "score": 20
+  },
+  "iron": {
+    "type": "natural",
+    "requirements": {"torch": 1},
+    "score": 3
+  },
+  "steel": {
+    "type": "synthetic",
+    "score": 30
+  },
+  "shovel": {
+    "type": "synthetic",
+    "score": 100
+  },
+  "pickaxe": {
+    "type": "synthetic",
+    "score": 150
+  },
+  "gem_mine": {
+    "type": "natural",
+    "requirements": {"pickaxe": 1},
+    "score": 4
+  },
+  "clay": {
+    "type": "natural",
+    "requirements": {"shovel": 1},
+    "score": 4
+  },
+  "pottery": {
+    "type": "synthetic",
+    "score": 40
+  },
+  "cutter": {
+    "type": "synthetic",
+    "score": 100
+  },
+  "gem": {
+    "type": "synthetic",
+    "score": 200
+  },
+  "totem": {
+    "type": "synthetic",
+    "score": 1000
+  }
+}

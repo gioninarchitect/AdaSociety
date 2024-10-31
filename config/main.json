@@ -1,0 +1,9 @@
+{
+  "task": "./config/task/exploration.json",
+  "render": "./config/gui/render.json",
+  "job": "./config/common/job.json",
+  "resource": "./config/common/resource.json",
+  "event": "./config/common/event.json",
+
+  "__COMMENT__":  "Enjoy AdaSociety!"
+}

@@ -1,0 +1,12 @@
+{
+  "mode": "none",
+  "fps": 18,
+  "step_frames": 3,
+  "screen": {
+    "width": 1536,
+    "height": 1536
+  },
+  "tileset_path": "./project/env/gui/images/tileset_43x115.png",
+  "__COMMENT__": "Available options: all / global / local",
+  "visible_resource": "global"
+}

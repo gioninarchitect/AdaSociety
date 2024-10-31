@@ -1,0 +1,130 @@
+{
+    "agent": "project.tasks.negotiation.agent.agent.NegotiationAgent",
+    "env_handler": "project.agent.env_handler.EnvHandler",
+    "base_map": {
+      "__COMMENT__": "Available rules: blank / box / map_file",
+      "init_rule": "blank",
+      "__COMMENT__": "`size` must be set if `init_rule` is either `blank` or `box`",
+      "size": {
+        "x": 7,
+        "y": 7
+      },
+      "__COMMENT__": "`file_path` must be set if `init_rule` is `map_file`",
+      "file_path": "./config/map/lost_temple.map"
+    },
+    "random": {
+      "blocks": [
+        {
+          "repeat": 0
+        }
+      ],
+      "resources": [
+        {
+          "name": "wood",
+          "num": {
+            "__COMMENT__": "static / loop / random",
+            "rule": "random",
+            "__COMMENT__": "Available distribution: uniform",
+            "__COMMENT__": "Default type: int",
+            "__COMMENT__": "Default distribution: uniform",
+            "min": 5,
+            "max": 5
+          },
+          "repeat": 4
+        },
+        {
+          "name": "stone",
+          "num": {
+            "rule": "random",
+            "min": 5,
+            "max": 5
+          },
+          "repeat": 4
+        },
+        {
+          "name": "hammer",
+          "num": {
+            "rule": "random",
+            "min": 0,
+            "max": 0
+          },
+          "repeat": 0
+        }
+      ],
+      "events": [
+        {
+          "name": "hammer_craft",
+          "repeat": 41
+        }
+      ],
+      "players": [
+        {
+          "job": "carpenter",
+          "__COMMENT__": "Field of View (one of three below):",
+          "__COMMENT__": " - an int: n = front = back = left = right",
+          "__COMMENT__": " - a list of two ints: (h, v), h = left = right, v = front = back)",
+          "fov": 3,
+          "repeat": 2
+        },
+        {
+            "job": "miner",
+            "__COMMENT__": "Field of View (one of three below):",
+            "__COMMENT__": " - an int: n = front = back = left = right",
+            "__COMMENT__": " - a list of two ints: (h, v), h = left = right, v = front = back)",
+            "fov": 3,
+            "repeat": 2
+          }
+      ]
+    },
+    "static": {
+      "social": {
+      "relations": [],
+      "groups": []
+    },
+      "stackable": false
+    },
+    "max_length": 120,
+    "negotiation":{
+      "negotiation_steps": 20,
+      "claim_proposal_interval": 9
+    },
+    "post_updates":[
+      {
+        "function": "matching_edge",
+        "kwargs":{
+          "condition_attr": "matching_request_step",
+          "result_attr1": {
+            "parity": 0
+          },
+          "result_attr2": {
+            "parity": 1
+          }
+        }
+      },
+      {
+        "function": "merge_relation_to_group",
+        "kwargs":{
+          "condition_attr": "accept",
+          "result_attr": "score"
+        }
+      },
+      {
+        "function": "normalization",
+        "kwargs":{
+          "attr": "score"
+        }
+      },
+      {
+        "function": "clear_temporary_relation",
+        "kwargs":{
+          "attr": "matching_request_step"
+        }
+      },
+      {
+        "function": "split_score_to_group",
+        "kwargs": {
+          "attribute": "score"
+        }
+      }
+    ]
+  }

@@ -1,0 +1,185 @@
+{
+  "agent": "project.tasks.exploration.agent.agent.ExplorationAgent",
+  "env_handler": "project.agent.env_handler.EnvHandler",
+  "base_map": {
+    "__COMMENT__": "Available rules: blank / box / map_file",
+    "init_rule": "blank",
+    "__COMMENT__": "`size` must be set if `init_rule` is either `blank` or `box`",
+    "size": {
+      "x": 20,
+      "y": 20
+    },
+    "__COMMENT__": "`file_path` must be set if `init_rule` is `map_file`",
+    "file_path": "./config/map/lost_temple.map"
+  },
+  "random": {
+    "blocks": [
+      {
+        "repeat": 25
+      }
+    ],
+    "resources": [
+      {
+        "name": "wood",
+        "num": {
+          "__COMMENT__": "static / loop / random",
+          "rule": "random",
+          "__COMMENT__": "Available distribution: uniform",
+          "__COMMENT__": "Default type: int",
+          "__COMMENT__": "Default distribution: uniform",
+          "min": 20,
+          "max": 20
+        },
+        "repeat": 10
+      },
+      {
+        "name": "stone",
+        "num": {
+          "rule": "random",
+          "min": 20,
+          "max": 20
+        },
+        "repeat": 10
+      },
+      {
+        "name": "coal",
+        "num": {
+          "rule": "random",
+          "min": 10,
+          "max": 10
+        },
+        "repeat": 10
+      },
+      {
+        "name": "iron",
+        "num": {
+          "rule": "random",
+          "min": 8,
+          "max": 8
+        },
+        "repeat": 10
+      },
+      {
+        "name": "gem_mine",
+        "num": {
+          "rule": "random",
+          "min": 4,
+          "max": 4
+        },
+        "repeat": 5
+      },
+      {
+        "name": "clay",
+        "num": {
+          "rule": "random",
+          "min": 8,
+          "max": 8
+        },
+        "repeat": 10
+      }
+    ],
+    "events": [
+      {
+        "name": "hammer_craft",
+        "repeat": 40
+      },
+      {
+          "name": "torch_craft",
+          "repeat": 40
+      },
+      {
+          "name": "steelmaking",
+          "repeat": 30
+      },
+      {
+          "name": "potting",
+          "repeat": 30
+      },
+      {
+          "name": "shovel_craft",
+          "repeat": 20
+      },
+      {
+          "name": "pickaxe_craft",
+          "repeat": 20
+      },
+      {
+        "name": "cutter_craft",
+        "repeat": 20
+      },
+      {
+        "name": "gem_craft",
+        "repeat": 10
+      },
+      {
+        "name": "totem_making",
+        "repeat": 10
+      }
+    ],
+    "players": [
+      {
+        "job": "explorer",
+        "repeat": 8,
+        "fov": 2
+      }
+    ]
+  },
+  "static": {
+      "communication_length": 3,
+      "social": {
+          "relations": [],
+          "groups": [
+            {
+                "name": "group_0",
+                "players": {}
+            },
+            {
+                "name": "group_1",
+                "players": {}
+            },
+            {
+                "name": "group_2",
+                "players": {}
+            },
+            {
+                "name": "group_3",
+                "players": {}
+            },
+            {
+                "name": "group_4",
+                "players": {}
+            },
+            {
+                "name": "group_5",
+                "players": {}
+            },
+            {
+                "name": "group_6",
+                "players": {}
+            },
+            {
+                "name": "group_7",
+                "players": {}
+            }
+        ]
+    },
+      "stackable": false
+  },
+  "max_length": 500,
+  "pre_updates":[
+    {
+      "function": "clear_temporary_relation",
+      "kwargs": {
+        "attr": "communication"
+      }
+    }
+  ],
+  "post_updates":[
+    {
+      "function": "split_score_to_group",
+      "kwargs": {
+        "attribute": "division_weight"
+      }
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "hammer_craft": {
+    "in": {"wood": 1, "stone": 1},
+    "out": {"hammer": 1}
+  },
+  "torch_craft": {
+    "in": {"wood": 1, "coal": 1},
+    "out": {"torch": 1},
+    "requirements": {"coal": 1}
+  },
+  "steelmaking": {
+    "in": {"iron": 1, "coal": 1},
+    "out": {"steel": 1},
+    "requirements": {"iron": 1}
+  },
+  "potting": {
+    "in": {"clay": 2, "coal": 1},
+    "out": {"pottery": 1},
+    "requirements": {"clay": 1}
+  },
+  "shovel_craft": {
+    "in": {"steel": 2, "wood": 2},
+    "out": {"shovel": 1},
+    "requirements": {"steel": 1}
+  },
+  "pickaxe_craft": {
+    "in": {"steel": 3, "wood": 2},
+    "out": {"pickaxe": 1},
+    "requirements": {"steel": 1}
+  },
+  "cutter_craft": {
+    "in": {"steel": 2, "stone": 3},
+    "out": {"cutter": 1},
+    "requirements": {"steel": 1}
+  },
+  "gem_craft": {
+    "in": {"cutter": 1, "gem_mine": 1},
+    "out": {"gem": 1},
+    "requirements": {"cutter": 1, "gem_mine": 1}
+  },
+  "totem_making": {
+    "in": {"gem": 2, "pottery": 1, "steel": 1},
+    "out": {"totem": 2},
+    "requirements": {"gem": 1}
+  }
+}

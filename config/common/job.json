@@ -1,0 +1,135 @@
+{
+  "carpenter": {
+    "__COMMENT__": "Field of View (one of two below):",
+    "__COMMENT__": " - an int: n = front = back = left = right",
+    "__COMMENT__": " - a list of two ints: (h, v), h = left = right, v = front = back)",
+    "fov": 3,
+    "inventory": {
+      "size": 200,
+      "init": [
+      ],
+      "max": {
+        "wood": 100,
+        "stone": 100,
+        "hammer": 1
+      },
+      "score": {
+        "wood": 1,
+        "stone": 1,
+        "hammer": 5
+      }
+    }
+  },
+  "miner": {
+    "fov": 3,
+    "inventory": {
+      "size": 100,
+      "__COMMENT__": "Initial inventory items",
+      "__COMMENT__": "- a list of dictionaries with 'name' and 'num' keys",
+      "init": [],
+      "max": {
+        "hammer": 100
+      },
+      "score": {
+        "hammer": 10
+      }
+    }
+  },
+  "explorer": {
+    "fov": 2,
+    "inventory": {
+      "size": 32767,
+      "__COMMENT__": "Initial inventory items",
+      "__COMMENT__": "- a list of dictionaries with 'name' and 'num' keys",
+      "init": [],
+      "max": {
+        "wood": 32767,
+        "stone": 32767,
+        "hammer": 32767,
+        "coal": 32767,
+        "torch": 32767,
+        "iron": 32767,
+        "steel": 32767,
+        "shovel": 32767,
+        "pickaxe": 32767,
+        "gem_mine": 32767,
+        "clay": 32767,
+        "pottery": 32767,
+        "cutter": 32767,
+        "gem": 32767,
+        "totem": 32767
+      },
+      "score": {
+        "wood": 1,
+        "stone": 1,
+        "hammer": 5,
+        "coal": 2,
+        "torch": 20,
+        "iron": 3,
+        "steel": 30,
+        "shovel": 100,
+        "pickaxe": 150,
+        "gem_mine": 4,
+        "clay": 4,
+        "pottery": 40,
+        "cutter": 100,
+        "gem": 200,
+        "totem": 1000
+      }
+    }
+  },
+  "carpenter_hard": {
+    "__COMMENT__": "Field of View (one of two below):",
+    "__COMMENT__": " - an int: n = front = back = left = right",
+    "__COMMENT__": " - a list of two ints: (h, v), h = left = right, v = front = back)",
+    "fov": 2,
+    "inventory": {
+      "size": 500,
+      "init": [
+      ],
+      "max": {
+        "wood": 100,
+        "stone": 100,
+        "hammer": 1,
+        "coal": 0, 
+        "torch": 100,
+        "iron": 100
+      },
+      "score": {
+        "wood": 1,
+        "stone": 1, 
+        "hammer": 5,
+        "coal": 10,
+        "torch": 30,
+        "iron": 20
+      }
+    }
+  },
+  "miner_hard": {
+    "__COMMENT__": "Field of View (one of two below):",
+    "__COMMENT__": " - an int: n = front = back = left = right",
+    "__COMMENT__": " - a list of two ints: (h, v), h = left = right, v = front = back)",
+    "fov": 2,
+    "inventory": {
+      "size": 500,
+      "init": [
+      ],
+      "max": {
+        "wood": 0,
+        "stone": 0,
+        "hammer": 100,
+        "coal": 100, 
+        "torch": 1,
+        "iron": 0
+      },
+      "score": {
+        "wood": 1,
+        "stone": 1, 
+        "hammer": 5,
+        "coal": 10,
+        "torch": 30,
+        "iron": 20
+      }
+    }
+  }
+}

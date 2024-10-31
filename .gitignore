@@ -1,0 +1,10 @@
+project/Environment/test.py
+__pycache__/
+*.pyc
+.vscode/
+wandb/
+results/
+debug/
+*.sh
+*.log
+*.err
