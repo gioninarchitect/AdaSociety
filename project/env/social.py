@@ -86,7 +86,7 @@ class Social:
     def merge_group(self, attribute):
         for player in self.players:
             groups = player.group_dict.get(attribute, [])
-            if len(group) > 1:
+            if len(groups) > 1:
                 for group in groups[1:]:
                     self.merge_two_groups(self, groups[0], group, attribute)
 

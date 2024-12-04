@@ -282,7 +282,7 @@ class Player:
         return players
 
     def _obs_grid(self):
-        return self.game.grid_map(self.position, self.rotation, self.fov)
+        return self.game.grid_map(self.position, self.fov)
 
     def _obs_position(self):
         return list(self.position)
