@@ -8,6 +8,23 @@
 - **[network](./network)** and **[policy](./policy)**:  The modules needed to train agents using the RLlib framework.
 
 Here is an example to run RecPPO in *Negotiation-Easy*:
+
+Set `config/main.json` as
+
+```json
+{
+  "task": "./config/task/negotiation.json",
+  "render": "./config/gui/render.json",
+  "job": "./config/common/job.json",
+  "resource": "./config/common/resource.json",
+  "event": "./config/common/event.json",
+
+  "__COMMENT__":  "Enjoy AdaSociety!"
+}
+```
+
+and run
+
 ```
 python rllib_train.py \
     --algo PPO \
