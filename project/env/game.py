@@ -105,6 +105,7 @@ class Game:
         # Players: post update
         for player in self.players:
             player.post_update()
+        self.update_position_dict()
         # Time
         self.steps += 1
         # Social

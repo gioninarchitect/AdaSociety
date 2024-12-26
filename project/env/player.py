@@ -297,16 +297,16 @@ class Player:
         self.move(dx, dy)
 
     def _act_move_up(self, **kwargs):
-        self.move(0, -1)
-
-    def _act_move_down(self, **kwargs):
-        self.move(0, 1)
-
-    def _act_move_left(self, **kwargs):
         self.move(-1, 0)
 
-    def _act_move_right(self, **kwargs):
+    def _act_move_down(self, **kwargs):
         self.move(1, 0)
+
+    def _act_move_left(self, **kwargs):
+        self.move(0, -1)
+
+    def _act_move_right(self, **kwargs):
+        self.move(0, 1)
 
     def _act_pick(self, **kwargs):
         resource = self.game.resource_dict.get(self.position)
