@@ -4,9 +4,10 @@ from project.tasks.llm.social_structure.agent.agent import PhysicalAgent
 import copy
 import argparse
 import numpy as np
+import os
 
 from project.tasks.llm.llm_env_wrapper import LLMEnvWrapper
-OUTPUT_DIR = "project/tasks/llm/outputs/"
+OUTPUT_DIR = "./project/tasks/llm/outputs/"
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -80,6 +81,9 @@ if __name__ == "__main__":
                 agent.reset()
                 physical_agents.append(agent)
 
+        if not os.path.exists(OUTPUT_DIR):
+            os.makedirs(OUTPUT_DIR)
+        
         for step in range(0, terminated_point):
             if step == phase1_length:
                 agents = physical_agents

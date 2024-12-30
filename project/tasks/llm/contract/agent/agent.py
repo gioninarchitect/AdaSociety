@@ -260,6 +260,8 @@ class ContractAgent(BaseAgent):
         return prompt
 
     def create_gptmodule(self, module_name, retrival_method='recent_k', K=10):
+        if not os.path.exists(PROMPT_DIR):
+            os.makedirs(PROMPT_DIR)
         with open(f'{OUTPUT_DIR}output_{self.task}_{self.episode}.txt', 'a', encoding='utf-8') as file:
             print(f"\n--->Initializing GPT {module_name}<---\n", file=file)
         system_promt = self.generate_system_promt()
@@ -696,6 +698,8 @@ class Contract_PhysicalAgent(BaseAgent):
         return prompt
 
     def create_gptmodule(self, module_name, retrival_method='recent_k', K=10):
+        if not os.path.exists(PROMPT_DIR):
+            os.makedirs(PROMPT_DIR)
         with open(f'{OUTPUT_DIR}output_{self.task}_physical_{self.episode}.txt', 'a', encoding='utf-8') as file:
             print(f"\n--->Initializing GPT {module_name}<---\n", file=file)
         system_promt = self.generate_system_promt()

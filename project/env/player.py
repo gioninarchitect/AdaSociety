@@ -249,8 +249,10 @@ class Player:
                 scolled_x = (x + dh) % self.game.world_map.size_x
                 scolled_y = (y + dv) % self.game.world_map.size_y
                 resource = self.game.resource_dict.get((scolled_x, scolled_y))
-                if resource and resource.check_visible(self):
-                    resources.append(resource)
+                while resource:
+                    if resource.check_visible(self):
+                        resources.append(resource)
+                    resource = resource.stacked_resource
         return resources
 
     @property

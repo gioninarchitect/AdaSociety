@@ -2,13 +2,13 @@ import json
 import random
 import numpy as np
 
-from project.env.event import Event
-from project.env.game import Game
-from project.env.player import Player
-from project.env.resource import Resource
-from project.env.social import Social
-from project.env.group import Group
-from project.env.world_map import WorldMap
+from ..env.event import Event
+from ..env.game import Game
+from ..env.player import Player
+from ..env.resource import Resource
+from ..env.social import Social
+from ..env.group import Group
+from ..env.world_map import WorldMap
 
 BLANK = 0
 BLOCK = 1

@@ -395,8 +395,28 @@ class Game:
         for player in self.players:
             player.settle_score()
 
+    def get_state(self):
+        state = {'episode_id': 0, 'step_id': 0, 'Map': {}, 'Player': {}, 'Social': {}}
+        state['episode_id'] = self.episodes
+        state['step_id'] = self.steps
+        
+        '''Map Info'''
+        state['Map']['block_grids'] = self.world_map.observation.T
+        state['Map']['resources'] = self._get_all_resource()
+        state['Map']['events'] = [event.get_dict_info() for event in self.events]
+        
+        '''Player Info'''
+        state['Player'] = [
+            {**player.get_dict_info(), 'inventory': player.get_inventory()} 
+            for player in self.players
+        ]
+        
+        '''Social Info'''
+        state['Social']['global'] = self._get_social_global()
+        state['Social']['communications'] = self._get_all_communication()
+        return state
+
     def _get_obs(self):
-        # TODO
         obs = {}
         social_global = self._get_social_global()
         groups = self._get_social_groups()
@@ -430,6 +450,14 @@ class Game:
         for player in self.players:
             obs[player.name]['Social']['sharings'] = self._get_social_sharing(player, obs)
         return obs
+    
+    def _get_all_resource(self):
+        resource_list = []
+        for resource in self.resource_dict.values():
+            while resource:
+                resource_list.append(resource.get_dict_info())
+                resource = resource.stacked_resource
+        return resource_list
 
     def _get_visible_resource(self, player):
         visible_resources_dict = []
@@ -449,6 +477,17 @@ class Game:
             visible_players_dict.append(other_player.get_dict_info())
         return visible_players_dict
     
+    def _get_all_communication(self):
+        communication_list = []
+        for from_node, to_node, communication_unit in self.social.social_graph.edges(data = 'communication', default=None):
+            if communication_unit is not None:
+                communication_list.append({
+                    "from": from_node._id,
+                    "to": to_node._id,
+                    "words": communication_unit
+                })
+        return communication_list
+
     def _get_single_communication(self, player):
         communication_list = []
         for from_node, _, communication_unit in self.social.social_graph.in_edges(player, data = 'communication', default=None):

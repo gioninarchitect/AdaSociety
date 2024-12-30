@@ -17,8 +17,7 @@ class Environment(MultiAgentEnv):
         config_name='./config/main.json',
     ):
         self.config_loader = ConfigLoader(config_name)
-        config = self.config_loader.config
-        self.game_editor = GameEditor(config=config)
+        self.game_editor = GameEditor(config=self.config_loader.config)
         self.episode = -1
 
         # Render
