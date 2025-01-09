@@ -104,8 +104,9 @@ class State:
         self.obs_dict['inventory'] = inventory
 
         ''' social_state '''
-        social_graph = obs['Social']['social_graph']
-        self.obs_dict['social_state'] = self._get_player_adjacency_matrix(social_graph)
+        # social_graph = obs['Social']['social_graph']
+        social_graph = self.social_state2graph(obs["Social"]['global']['edges'])
+        # self.obs_dict['social_state'] = self._get_player_adjacency_matrix(social_graph)
 
         ''' time '''
         self.obs_dict['time'].fill(0)
@@ -116,7 +117,7 @@ class State:
         self.obs_dict['player_id'][self._id] = 1
 
         ''' action_mask '''
-        action_mask = self._get_action_mask(obs['Social']['social_graph'], obs['step_id'], self.obs_dict['grid_observation'], self.obs_dict['inventory'])
+        action_mask = self._get_action_mask(social_graph, obs['step_id'], self.obs_dict['grid_observation'], self.obs_dict['inventory'])
         # print(f"action mask: {action_mask}")
         self.obs_dict['action_mask'] = action_mask
 
@@ -142,7 +143,7 @@ class State:
         final_split = self._find_final_split(social_graph)
         # print(f"final split: {final_split}")
         self.obs_dict['final_split'] = final_split
-        return self.obs_dict
+        return self.obs_dict, social_graph
 
     def _relative_pos(self, pos):
         return (np.array(pos) - np.array(self._my_pos) + np.array(self.ref_point)) % np.array(self.map_size)
@@ -174,6 +175,23 @@ class State:
             G.add_edge(from_name, to_name, **edge['attributes'])
         return G
     
+    def social_state2graph(self, edge_list):
+        G = nx.DiGraph()
+        for i in range(self.player_num):
+            G.add_node(f'player_{i}', type='player', id=i)
+        # G.add_nodes_from([f'player_{i}' for i in range(self.player_num)])
+        for edge in edge_list:
+            from_node = edge['from']
+            from_name = f'{from_node["type"]}_{from_node["id"]}'
+            if from_name not in G.nodes:
+                G.add_node(from_name, type=from_node['type'], id=from_node['id'])
+            to_node = edge['to']
+            to_name = f'{to_node["type"]}_{to_node["id"]}'
+            if to_name not in G.nodes:
+                G.add_node(to_name, type=to_node['type'], id=to_node['id'])
+            G.add_edge(from_name, to_name, **edge['attributes'])
+        return G
+
     def inventory_toarray(self, inventory_list):
         inventory = np.zeros((self.resource_num, ), dtype=np.int16)
         for resource in inventory_list:

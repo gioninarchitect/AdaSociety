@@ -161,14 +161,9 @@ class Social:
         return [data for _, _, data in self.social_graph.edges(data='_dict_view')]
         
     def update_edge_dict(self, u, v):
-        if '_dict_view' not in self.social_graph.edges[u, v]:
-            self.social_graph.edges[u, v]['_dict_view'] = self.edge_to_dict(
-                u, v, {k: v for k, v in self.social_graph.edges[u, v].items() if k != '_dict_view'}
-            )
-        else:
-            self.social_graph.edges[u, v]['_dict_view']["attributes"].update({
-                k: v for k, v in self.social_graph.edges[u, v].items() if k != '_dict_view'
-            })
+        self.social_graph.edges[u, v]['_dict_view'] = self.edge_to_dict(
+            u, v, {k: v for k, v in self.social_graph.edges[u, v].items() if k != '_dict_view'}
+        )
         
     def node_to_dict(self, attr):
         return {

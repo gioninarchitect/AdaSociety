@@ -27,7 +27,7 @@ class NegotiationAgent:
         terminated,
         info,
     ):
-        self.obs = self.update_obs(obs)
+        self.obs, self.graph = self.update_obs(obs)
         self.update_reward(obs, reward, truncated, terminated, info)
         self.truncated = truncated
         self.terminated = terminated
@@ -37,7 +37,6 @@ class NegotiationAgent:
         self,
         obs,
     ):
-        self.origin_obs = obs
         return self.state.update(obs)
 
     def update_policy(
@@ -90,7 +89,7 @@ class NegotiationAgent:
         return self.action.get_action()
     
     def _get_bargaining_player(self):
-        graph = self.origin_obs['Social']['social_graph']
+        graph = self.graph
         for u, v, edge in graph.edges(data=True):
             u_data = graph.nodes[u]
             v_data = graph.nodes[v]
@@ -99,7 +98,7 @@ class NegotiationAgent:
                     return v_data['id']
                 
     def _get_opponent_proposal(self, opponent_player_id):
-        graph = self.origin_obs['Social']['social_graph']
+        graph = self.graph
         for u, v, edge in graph.edges(data=True):
             u_data = graph.nodes[u]
             v_data = graph.nodes[v]

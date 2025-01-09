@@ -443,7 +443,8 @@ class NegotiationAgent(BaseAgent):
         llm_obs = {}
         llm_obs = {}
         llm_obs['social_state'] = self.state.social_state2nx(observation["Social"]['global']['edges'])
-        llm_obs['social_graph'] = observation["Social"]['social_graph']
+        # llm_obs['social_graph'] = observation["Social"]['social_graph']
+        llm_obs['social_graph'] = self.state.social_state2graph(observation["Social"]['global']['edges'])
         llm_obs['inventory'] = self.state.inventory_toarray(observation["Player"]['inventory'])
         llm_obs['step'] = observation['step_id']
         llm_obs['position'] = pre_position[self.agent_id]
@@ -490,14 +491,14 @@ class NegotiationAgent(BaseAgent):
                         u = self.player2name[u]
                         v = self.player2name[v]
                         pairs.append((u, v))
+        self.nego_state = pairs
         if len(pairs) != 0:
             NegoState_prompt += f"{pairs}\n"
         else:
             NegoState_prompt += 'None\n'
         
         nego_flag = False
-        Communication_prompt = "Communication log:\n"
-        # # TODO: 处于谈判状态时的分配情况
+        Communication_prompt = "Communication log:\n" 
         for pair in pairs_player:
             player1_name = pair[0]
             player2_name = pair[1]
@@ -676,7 +677,20 @@ class NegotiationAgent(BaseAgent):
                             if target_player_name in player:
                                 flag = False
                     if flag:
-                        self.Action.bargain_action(action_id, target_player_id, opponent_proposal)
+                        target_player_name = None
+                        for pair in self.nego_state:
+                            my_name = self.agent_name_list[self.env_agent_name_list.index(self.agent_name)]
+                            if my_name == pair[0]:
+                                target_player_name = pair[1]
+                                break
+                            if my_name == pair[1]:
+                                target_player_name = pair[0]
+                                break
+                        if target_player_name is None:
+                            self.Action.move_action(4)
+                        else:
+                            target_player_id = self.agent_name_list.index(target_player_name)
+                            self.Action.bargain_action(action_id, target_player_id, opponent_proposal)
                     else:
                         self.Action.move_action(4)
                 else:

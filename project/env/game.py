@@ -329,6 +329,7 @@ class Game:
                 if total_attr_value > 0:
                     for group_node, player_node in edges:
                         social_graph[group_node][player_node][attr] /= total_attr_value
+                        self.social.update_edge_dict(group_node, player_node)
 
     def _post_clear_temporary_relation(self, attr):
         social_graph = self.social.social_graph
@@ -438,8 +439,8 @@ class Game:
             '''Social Info'''
             _obs['Social']['global'] = social_global
             _obs['Social']['communications'] = self._get_single_communication(player)
-            _obs['Social']['groups'] = groups
-            _obs['Social']['social_graph'] = self.social.social_graph
+            # _obs['Social']['groups'] = groups
+            # _obs['Social']['social_graph'] = self.social.social_graph
             obs[player.name] = _obs
 
         # generate a json file for social global and add it into a specific file (the file is the same for steps in the same episode) in ./debug/sample
