@@ -540,7 +540,7 @@ class PhysicalAgent(BaseAgent):
                 self.Action.move_action(random_move)
             else:
                 target_resource_pos = self.resource_pos[target_resource_name]
-                if "move" in self.pre_action[0][0] and (self.pre_position == self.position).all():
+                if "move" in self.pre_action[0] and tuple(self.pre_position) == tuple(self.position):
                     random_move = random.randint(0, 4)
                     self.Action.move_action(random_move)
                 else:
@@ -567,7 +567,7 @@ class PhysicalAgent(BaseAgent):
                 self.Action.move_action(random_move)
             else:
                 target_resource_pos = self.event_pos[target_resource_name]
-                if "move" in self.pre_action[0][0] and (self.pre_position == self.position).all():
+                if "move" in self.pre_action[0] and tuple(self.pre_position) == tuple(self.position):
                     random_move = random.randint(0, 4)
                     self.Action.move_action(random_move)
                 else:

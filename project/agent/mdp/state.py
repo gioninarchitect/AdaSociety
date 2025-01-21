@@ -157,7 +157,7 @@ class State:
         update_obs = {}
         self.update_my_pos(obs['Player']['position'])
         player_list = obs['Map']['players']
-        block_list = obs['Map']['block_grids'][np.newaxis, :, :]
+        block_list = np.array(obs['Map']['block_grids'])[np.newaxis, :, :]
         if shared_block.size > 0:
             block_list = np.concatenate((block_list,shared_block))
         event_list = obs['Map']['events']

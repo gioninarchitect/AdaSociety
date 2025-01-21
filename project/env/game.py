@@ -41,7 +41,7 @@ class Game:
         self.negotiation_steps = negotiation_steps
         # Events
         self.events = events
-        self.event_dict = {event.position: event for event in events}
+        self.event_dict = {tuple(event.position): event for event in events}
 
         self.steps = 0
         self.episodes = 0
@@ -120,7 +120,7 @@ class Game:
         self.terminateds = self._get_terminateds()
 
     def bubble_up_resource(self, position, resource_name):
-        resource = self.resource_dict.get(position)
+        resource = self.resource_dict.get(tuple(position))
         if resource:
             top_resource = resource
             if resource.name == resource_name:
@@ -130,32 +130,33 @@ class Game:
                 if next_resource.name == resource_name:
                     resource.stacked_resource = next_resource.stacked_resource
                     next_resource.stacked_resource = top_resource
-                    self.resource_dict[position] = next_resource
+                    self.resource_dict[tuple(position)] = next_resource
                     return next_resource
                 resource = next_resource
                 next_resource = resource.stacked_resource
         return None
 
     def provide_resource(self, position, require_num=1):
-        resource = self.resource_dict.get(position)
+        resource = self.resource_dict.get(tuple(position))
         if resource:
             obtained_resource = resource.provide(require_num)
             
             if not resource.is_available:
                 if resource.stacked_resource:
-                    self.resource_dict[position] = resource.stacked_resource
+                    self.resource_dict[tuple(position)] = resource.stacked_resource
                 else:
-                    del self.resource_dict[position]
+                    del self.resource_dict[tuple(position)]
             return obtained_resource
         return None
 
     def lay_resource(self, resource):
-        if resource.position in self.resource_dict:
-            resource.stacked_resource = self.resource_dict[resource.position]
-        self.resource_dict[resource.position] = resource
+        position = tuple(resource.position) if isinstance(resource.position, list) else resource.position
+        if position in self.resource_dict:
+            resource.stacked_resource = self.resource_dict[position]
+        self.resource_dict[position] = resource
 
     def get_event(self, position):
-        return self.event_dict.get(position, None)
+        return self.event_dict.get(tuple(position), None)
 
     def grid_map(self, position, fov):
         x, y = position
@@ -198,7 +199,7 @@ class Game:
                     self.__undo_collided_players(pos, blocked_positions, collided_position_dict)
 
     def update_position_dict(self):
-        self.player_position = {player.position: player for player in self.players}
+        self.player_position = {tuple(player.position): player for player in self.players}
         
     def _post_update_matching_edge(self, condition_attr, result_attr1, result_attr2):
         graph = self.social.social_graph
@@ -442,14 +443,23 @@ class Game:
             # _obs['Social']['groups'] = groups
             # _obs['Social']['social_graph'] = self.social.social_graph
             obs[player.name] = _obs
-
-        # generate a json file for social global and add it into a specific file (the file is the same for steps in the same episode) in ./debug/sample
-        # dump_info = {"episode_id": self.episodes, "step_id": self.steps, "Social": {"global": social_global}}
-        # with open(f'./debug/sample/social_global_{self.episodes}_{self.steps}.json', 'a') as f:
-        #     json.dump(dump_info, f, cls=NumpyEncoder, indent=4)
         
         for player in self.players:
             obs[player.name]['Social']['sharings'] = self._get_social_sharing(player, obs)
+
+        def preprocess_obs(obs):
+            if isinstance(obs, dict):
+                return {k: preprocess_obs(v) for k, v in obs.items()}
+            elif isinstance(obs, list):
+                return [preprocess_obs(item) for item in obs]
+            elif isinstance(obs, np.ndarray):
+                return obs.tolist()
+            elif isinstance(obs, tuple):
+                return list(obs)
+            return obs
+
+        obs = preprocess_obs(obs)
+
         return obs
     
     def _get_all_resource(self):
@@ -538,3 +548,4 @@ class Game:
 
     def _get_infos(self):
         return {player.name: {} for player in self.players}
+

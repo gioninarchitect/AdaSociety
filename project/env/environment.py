@@ -107,7 +107,7 @@ class Environment(MultiAgentEnv):
     def render(self):
         pass
 
-    def close(self):
-        if self.screen is not None:
-            pygame.display.quit()
-            pygame.quit()
+    def save_video(self):
+        self.rendering.save_video()
+
+

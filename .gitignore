@@ -1,4 +1,7 @@
 project/Environment/test.py
+project/tasks/llm/outputs/
+project/tasks/llm/prompts/
+project/tasks/llm/openai_key.txt
 __pycache__/
 *.pyc
 .vscode/

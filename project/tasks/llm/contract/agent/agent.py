@@ -176,10 +176,10 @@ class ContractAgent(BaseAgent):
             prompt += "coalition 1:None.\n"
             prompt += "coalition 2:None.\n"
             prompt += "coalition 3:None.\n"
-            prompt += "Coalition 4: None\n"
-            prompt += "Coalition 5: None\n"
-            prompt += "Coalition 6: None\n"
-            prompt += "Coalition 7: None\n"
+            prompt += "coalition 4: None\n"
+            prompt += "coalition 5: None\n"
+            prompt += "coalition 6: None\n"
+            prompt += "coalition 7: None\n"
             prompt += f"Information: It's {self.agent_name_list[self.agent_id]}"
             prompt += "'s turn.\n"
             prompt += "\n"
@@ -349,18 +349,28 @@ class ContractAgent(BaseAgent):
         else:
             self.Action.move_action(4)
 
+
     def language2action(self, response):
         if not isinstance(response, (str, bytes)):
             response = str(response)
-        match = re.search(r"Action: I want to join in Coalition (\d+)\.", response)
-        target_coalition = match.group(1) if match else None
+
+        match = re.search(r"Action: I want to (join|stay) in Coalition (\d+)\.", response)
+        if not match:
+            raise ValueError("Invalid response format: no valid action or coalition ID found.")
+
+        action, target_coalition = match.groups()
         target_coalition_id = int(target_coalition)
-        if self.group_id is not None:
-            self.Action.quit_group_action(self.group_id, WEIGHT)
+
+        if action.lower() == "join":
+            if self.group_id is not None:
+                self.Action.quit_group_action(self.group_id, WEIGHT)
             self.Action.join_group_action(target_coalition_id, {WEIGHT: 1})
-        else:
+            self.group_id = target_coalition_id
+        elif action.lower() == "stay":
+            if self.group_id is not None:
+                self.Action.quit_group_action(self.group_id, WEIGHT)
             self.Action.join_group_action(target_coalition_id, {WEIGHT: 1})
-        self.group_id = target_coalition_id
+            self.group_id = target_coalition_id
 
 class Contract_PhysicalAgent(BaseAgent):
     def __init__(self, info, task_info, agent_id, agent_name, task=None, episode=0, agent_name_list=['carpenter_0','carpenter_1','miner_0','miner_1'], env_agent_name_list = [], 

@@ -1,5 +1,5 @@
 {
-  "task": "./config/task/exploration.json",
+  "task": "./config/task/contract.json",
   "render": "./config/gui/render.json",
   "job": "./config/common/job.json",
   "resource": "./config/common/resource.json",

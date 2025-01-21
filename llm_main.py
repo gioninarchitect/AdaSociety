@@ -16,7 +16,7 @@ def parse_args():
     parser.add_argument('--task_name', type=str, choices = ["easy_contract",
                                                             "hard_contract","easy_negotiation","hard_negotiation",
                                                             "social_structure_unconnected","social_structure_connected","social_structure_ind_group",
-                                                            "social_structure_ovlp_group","social_structure_hierarchical","social_structure_dynamic",], default='easy_negotiation')
+                                                            "social_structure_ovlp_group","social_structure_hierarchical","social_structure_dynamic",], default='easy_contract')
 
     #===experiment===
     parser.add_argument('--model', type=str, default='gpt-3.5-turbo-0301')
@@ -46,8 +46,8 @@ if __name__ == "__main__":
         terminated_point = info[env_agent_name_list[0]]["max_length"] 
         agents = []
         physical_agents = []
-        pre_action = [0 for _ in range(agent_num)]
-        pre_position = [0 for _ in range(agent_num)]
+        pre_action = [['None'] for _ in range(agent_num)]
+        pre_position = [[-1, -1] for _ in range(agent_num)]
         reward_total = [0 for _ in range(agent_num)]
         if "contract" in args.task_name:
             phase1_length = 5 * info[env_agent_name_list[0]]["group_num"]
@@ -101,7 +101,6 @@ if __name__ == "__main__":
                 agent.update_policy(llm_obs)
                 action = agent.Action.action
                 agent.Action.new()
-
                 pre_action[agent_id] = copy.deepcopy(action)
                 pre_position[agent_id] = copy.deepcopy(llm_obs['current_pos'])
                 actions[agent_name] = action
@@ -127,6 +126,7 @@ if __name__ == "__main__":
                     print("########## RESULT ###########",file=file)
                     print("Step: ", step,file=file)
                     print("Reward: ", reward,file=file)
+        # env.env.save_video()
 
         with open(f'{OUTPUT_DIR}output_{args.task_name}_physical_{episode}.txt', 'a', encoding='utf-8') as file:
             print(f"eps {episode} final payoff {reward_total}",file=file)

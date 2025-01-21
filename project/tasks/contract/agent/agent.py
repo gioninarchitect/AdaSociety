@@ -57,7 +57,7 @@ class ContractAgent:
         update_obs = {}
         self.state.update_my_pos(obs['Player']['position'])
         player_layer = self.state.player_toarray(obs['Map']['players'])
-        block_layer = obs['Map']['block_grids'][np.newaxis, :, :]
+        block_layer = np.array(obs['Map']['block_grids'])[np.newaxis, :, :]
         event_layer = self.state.event_toarray(obs['Map']['events'])
         resource_layer = self.state.resource_toarray(obs['Map']['resources'])
         update_obs['grid_observation'] = np.concatenate((player_layer, block_layer, event_layer, resource_layer), axis=0)
