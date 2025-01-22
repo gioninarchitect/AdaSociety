@@ -15,6 +15,7 @@ SRC_DICT = {
     'hammer': (20, 4),
     'coal': (17, 24),
     'iron': (13, 30),
+    'torch': (26, 27),
     # Players
     'Adam': (1, 0),
     'Buford': (22, 1),

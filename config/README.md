@@ -7,9 +7,10 @@ This document provides a detailed explanation of the JSON files used for environ
 
 1. [Directory Configuration](#directory-configuration)
 2. [Task Configuration](#task-configuration)
-3. [Job Configuration](#job-configuration)
-4. [Resource Configuration](#resource-configuration)
-5. [Event Configuration](#event-configuration)
+3. [Render Configuration](#render-configuration)
+4. [Job Configuration](#job-configuration)
+5. [Resource Configuration](#resource-configuration)
+6. [Event Configuration](#event-configuration)
 
 ---
 
@@ -363,8 +364,33 @@ Other configurations besides the above.
 - **post_update**: Defines the game rules for the task. The `function` is selected from the post-processing functions in the environment and is located in the file. You can choose to define these post-processing functions yourself to form a new game. `Kwargs` are the parameters required by the game. Taking the minigame contract as an example, the "split_score_to_group" function is added with the parameter "division_weight". Its function is that the group allocates rewards to the agents in the group. The allocation rules are decided according to the value of "division_weight".
 - **pre_updates**: Similar to `post_update`, defines the game rule before the actions are executed in each step. 
 
-## Common configuration
-### Job Configuration
+## **Render Configuration**
+The render configuration file specifies the rendering settings for the environment. Below is an example configuration of [render.json](./gui/render.json):
+
+```json
+{
+  "mode": "none",
+  "fps": 18,
+  "step_frames": 3,
+  "screen": {
+    "width": 1536,
+    "height": 1536
+  },
+  "tileset_path": "./project/env/gui/images/tileset_43x115.png",
+  "__COMMENT__": "Available options: all / global / local",
+  "visible_resource": "global"
+}
+```
+- **mode**: The rendering mode, with available values "none", "human", "rgb_array", "video".
+- **fps**: The frame rate of the rendering.
+- **step_frames**: The number of frames per step.
+- **screen**: The screen size for rendering.
+- **tileset_path**: The path to the tileset image.
+- **visible_resource**: The visibility of resources, with available values "all", "global", "local".
+
+You can define icons for each resource and event in [cell.py](../project/env/gui/cell.py) by giving its coordinates in the tileset image. Currently the task *[Exploration](../project/tasks/exploration)* does not support rendering because some resources and events have not yet found a suitable icon.
+
+## Job Configuration
 
 The job configuration file defines the field of view for different professions and the initial and maximum capacity of their inventory. Below is an example configuration of [job.json](./common/job.json):
 
@@ -415,7 +441,7 @@ The job configuration file defines the field of view for different professions a
   - **max**: Maximum capacity for each item.
 - **score**: Score for each item.
 
-### **Resource Configuration**
+## **Resource Configuration**
 
 The resource configuration file defines the types of various resources and their objective scores. Below is an example configuration of [resource.json](./common/resource.json):
 
@@ -445,7 +471,7 @@ The resource configuration file defines the types of various resources and their
 - **score**: The score of the resource.
 - **requirements**: The prerequisites for acquiring the resource (optional).
 
-### **Event Configuration**
+## **Event Configuration**
 
 The event configuration file defines various events in the game and their input and output resources. Below is an example configuration of [event.json](./common/event.json):
 
